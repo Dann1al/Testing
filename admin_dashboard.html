@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styledashboard.css') }}">
+</head>
+<body>
+
+    <div class="top-bar">
+        <div class="top-left">
+            <h1 style="padding: 0%; margin: 0%;">ADMIN DASHBOARD</h1>
+        </div>
+        <div class="top-right">
+            <form action="{{ url_for('logout') }}" method="post">
+                <button class="btn" type="submit">Logout</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>Welcome, {{ username }}</h2>
+        <details>
+            <summary>All Registered Users</summary>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user[0] }}</td>
+                        <td>{{ user[1] }}</td>
+                        <td>
+                            <form action="{{ url_for('deletion') }}" method="post">
+                                    <input type="hidden" name="user_email" value="{{ user[1] }}">
+                                    <button type="submit" class="btn">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </details>
+         <h2>Create Course</h2>
+        <form method="POST" action="{{ url_for('create_subject') }}" class="form-grid">
+            <div class="form-group">
+                <label for="subject_name">Course Name</label>
+                <input type="text" id="subject_name" name="subject_name" required>
+            </div>
+            <div class="form-group">
+                <label for="start_time">Start Time</label>
+                <input type="time" id="start_time" name="start_time" required>
+            </div>
+            <div class="form-group">
+                <label for="end_time">End Time</label>
+                <input type="time" id="end_time" name="end_time" required>
+            </div>
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" name="location" required>
+            </div>
+            <div class="form-group">
+                 <label for="start_date">Start Date</label>
+                 <input type="date" id="start_date" name="start_date" required>
+            </div>
+            <div class="form-group">
+                <label for="duration">Duration (in weeks)</label>
+                <input type="number" id="duration" name="duration" min="1" value="1" required>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn">Add Course</button>
+            </div>
+        </form>
+
+        <br>
+        {% if courses %}
+<details>
+    <summary>Existing Courses</summary>
+    <table>
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Location</th>
+                <th>Start Date (Duration of Week)</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in courses %}
+            <tr>
+                <td>{{ course[1] }}</td>
+                <td>{{ course[2] }}</td>
+                <td>{{ course[3] }}</td>
+                <td>{{ course[4] }}</td>
+                <td>{{ course[5] }}</td>
+                <td>
+                            <form action="{{ url_for('deletion') }}" method="post">
+                                    <input type="hidden" name="course_id" value="{{ course[0] }}">
+                                    <button type="submit" class="btn">Delete</button>
+                            </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</details>
+{% endif %}
+    </div>
+{% if alert %}
+    <script>
+    alert("{{ alert }}");
+    </script>
+{% endif %}
+</body>
+</html>

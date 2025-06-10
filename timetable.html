@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Add Timetable - TimelySync</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styledashboard.css') }}">
+</head>
+<body>
+     <div class="top-bar">
+            <a href="{{ url_for('dashboard') }}" class="btn">← Back to Dashboard</a>
+            <a href="{{ url_for('calander_index') }}" class="btn">Calender</a>
+        <div class="top-bar-right">
+            <a href="{{ url_for('settings') }}" class="btn">Settings</a>
+            <a href="{{ url_for('logout') }}" class="btn">Logout</a>
+        </div>
+    </div>
+
+    <div class="container" style="width: 35%;">
+        <h2>Add Timetable Entry</h2>
+        <form method="POST">
+            <div class="form-group">
+            <label>Subject:</label>
+            <input type="text" name="subject" required><br><br>
+            </div>
+
+            <div class="form-group">
+            <label>Date:</label>
+            <input type="date" name="date" required><br><br>
+            </div>
+
+            <div class="form-group">
+            <label>Start Time:</label>
+            <input type="time" name="start_time" required><br><br>
+            </div>
+
+            <div class="form-group">
+            <label>End Time:</label>
+            <input type="time" name="end_time" required><br><br>
+            </div>
+
+            <div class="form-group">
+            <label>Location:</label>
+            <input type="text" name="location" required><br><br>
+            </div>
+
+            <button type="submit" class="btn">Add Entry</button>
+
+        </form>
+    </div>
+</body>
+</html>

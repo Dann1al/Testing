@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Dashboard - TimelySync</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styledashboard.css') }}">
+</head>
+<body>
+    <div class="top-bar">
+        <a href="{{ url_for('timetable') }}" class="btn">+ Add Entry</a>
+        <a href="{{ url_for('calander_index') }}" class="btn">Calender</a>
+        <div class="top-bar-right">
+            <a href="{{ url_for('settings') }}" class="btn">Settings</a>
+            <a href="{{ url_for('logout') }}" class="btn">Logout</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>Welcome, {{ username }}!</h2>
+        <p>This is your dashboard.</p>
+
+        {% if timetable %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Start Date (Duration of weeks)</th>
+                        <th>Day</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Location</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entry in timetable %}
+                    <tr>
+                        <td>{{ entry[0] }}</td>
+                        <td>{{ entry[1] }}</td>
+                        <td>{{ entry[2] }}</td>
+                        <td>{{ entry[3] }}</td>
+                        <td>{{ entry[4] }}</td>
+                        <td>{{ entry[5] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+                <p>You haven't added any timetable entries yet.</p>
+        {% endif %}
+
+        {% if available_courses %}
+            <h2>Choose Courses for Your Timetable</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Location</th>
+                        <th>Start Date (Duration of Week)</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for course in available_courses %}
+                            <tr>
+                            <td>{{ course[1] }}</td>
+                            <td>{{ course[2] }}</td>
+                            <td>{{ course[3] }}</td>
+                            <td>{{ course[4] }}</td>
+                            <td>{{ course[5] }}</td>
+                            <td>
+                                <form action="{{ url_for('enroll_course') }}" method="post">
+                                    <input type="hidden" name="course_id" value="{{ course[0] }}">
+                                    <button type="submit" class="btn">Enroll</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+
+    {% if alert %}
+        <script>
+            alert("{{ alert }}");
+        </script>
+    {% endif %}
+</body>
+</html>
